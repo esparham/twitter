@@ -1,0 +1,164 @@
+* {
+  font-family: var(--font-main);
+}
+
+.body {
+  margin: auto;
+}
+
+.header .header-left i {
+  margin-left: 16px;
+}
+
+.header .header-left h1 {
+  margin-left: 16px;
+}
+
+.cover-photo {
+  position: relative;
+  align-items: center;
+}
+
+.cover-photo .cover {
+  max-width: 800px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.cover-photo .profile {
+  position: absolute;
+  width: 100px;
+  border-radius: 50%;
+  left: 16px;
+  bottom: -50px;
+}
+
+.edit-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.edit-profile a {
+  border: 1px solid var(--color-text-gray);
+  padding: 8px;
+  border-radius: 16px;
+  margin: 8px 16px;
+  color: var(--color-text-primary);
+}
+
+span h2 {
+  display: inline;
+}
+
+.user-info__profile {
+  margin: 16px 16px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.user-info__profile h2,
+.user-info__profile i {
+  color: var(--color-text-gray);
+}
+
+.user-info__profile .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 200px;
+}
+
+/* Tweets */
+.twitt {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  margin-right: 16px;
+  border-bottom: 1px solid var(--color-border);
+  max-width: 700px;
+  margin: auto;
+}
+
+.twitt .user-photo {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 16px 8px 16px 8px;
+}
+
+.twitt-photo {
+  width: 98%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.card {
+  flex: 6;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  margin: 8px 16px 16px 8px;
+}
+.card-username {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.card-username__left {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.card-username__right {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-username__right i {
+  margin-right: 16px;
+  color: var(--color-text-gray);
+}
+
+.card-username__left h4 {
+  color: var(--color-text-gray);
+}
+
+.card-twitt {
+  margin-top: 8px;
+  margin-right: 8px;
+  text-align: center;
+}
+
+.card-twitt p {
+  text-align: left;
+}
+
+.card-icons {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card-icons i {
+  color: var(--color-text-gray);
+}
+
+span h4 {
+  display: inline;
+  color: var(--color-text-gray);
+}
+/* Tweets */
+
+@media (min-width: 1000px) {
+  .twitt {
+    max-width: 800px;
+  }
+}
+
+/* @media (min-width: 1150px) {
+} */
