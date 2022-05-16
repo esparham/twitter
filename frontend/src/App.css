@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,400;0,700;0,900;1,100&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --color-primary: rgb(23, 32, 42);
+  --color-primary-dim: rgb(26, 38, 52);
+  --color-text-primary: rgb(247, 249, 249);
+  --color-text-secondray: rgb(72, 155, 233);
+  --color-text-gray: rgb(140, 152, 164);
+  --color-border: rgb(40, 50, 59);
+  --color-danger: rgba(218, 3, 3, 0.818);
+  --font-main: 'Lato', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-text-primary);
+  display: block;
+  cursor: pointer;
+}
+
+h1 {
+  font-family: var(--font-main);
+  font-size: 18px;
+  color: var(--color-text-primary);
+}
+
+h2 {
+  font-family: var(--font-main);
+  font-size: 16px;
+  color: var(--color-text-primary);
+}
+
+h3 {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+h4 {
+  font-family: var(--font-main);
+  font-size: 12px;
+  color: var(--color-text-primary);
+}
+
+h5 {
+  font-family: var(--font-main);
+  font-size: 10px;
+  color: var(--color-text-primary);
+}
+
+p {
+  font-family: var(--font-main);
+  font-size: 16px;
+  color: var(--color-text-primary);
+}
+
+i {
+  color: var(--color-text-primary);
+}
+
+span {
+  color: var(--color-text-gray);
+  font: var(--font-main);
+}
