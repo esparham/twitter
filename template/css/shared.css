@@ -6,6 +6,7 @@
   box-sizing: border-box;
 
   --color-primary: rgb(23, 32, 42);
+  --color-primary-dim: rgb(26, 38, 52);
   --color-text-primary: rgb(247, 249, 249);
   --color-text-secondray: rgb(72, 155, 233);
   --color-text-gray: rgb(140, 152, 164);
@@ -63,6 +64,10 @@ aside i {
 aside .user-info h4 {
   padding-bottom: 8px;
   color: var(--color-text-gray);
+}
+
+#close-menu {
+  cursor: pointer;
 }
 
 .container {

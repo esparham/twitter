@@ -19,7 +19,11 @@
       <div class="side-top">
         <div class="top">
           <h2>Account info</h2>
-          <i class="fa-solid fa-xmark" onclick="hideSideMenu()"></i>
+          <i
+            id="close-menu"
+            class="fa-solid fa-xmark"
+            onclick="hideSideMenu()"
+          ></i>
         </div>
         <div class="user-info">
           <img src="public/images/profile.jpg" alt="" />
@@ -30,7 +34,7 @@
           <h3>329 <span>Following</span></h3>
           <h3>329 <span>Followers</span></h3>
         </div>
-        <a href=""><i class="fa-solid fa-user"></i>Profile</a>
+        <a href="./profile.html"><i class="fa-solid fa-user"></i>Profile</a>
         <a href=""><i class="fa-solid fa-rectangle-list"></i>List</a>
         <a href=""><i class="fa-solid fa-sliders"></i>Setting</a>
         <a href=""><i class="fa-solid fa-sun"></i>Disply</a>
@@ -40,6 +44,43 @@
       </div>
     </aside>
     <!-- Sidebar -->
+
+    <!-- New Twitt Modal -->
+
+    <div id="new-twitt-modal" class="new-twitt-modal">
+      <div class="new-twitt-modal_row">
+        <a onclick="hideNewTwitModal()"
+          ><i class="fa-solid fa-arrow-left"></i
+        ></a>
+        <button>Tweet</button>
+      </div>
+      <div class="text-area">
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="Share what's hapening..."
+        ></textarea>
+        <div class="new-twitt-modal_row right">
+          <a href="./index.html"
+            >Attach a photo<i class="fa-solid fa-paperclip"></i
+          ></a>
+        </div>
+        <div class="new-twitt__photo">
+          <img
+            src="./public/uploads/Young_Female_Athlete_High_Jump_08ed57536bc06d2122db14f612cc2f13.jpeg"
+            alt=""
+          />
+        </div>
+        <div class="new-twitt-modal_row right">
+          <a href="./index.html"
+            >Remove the photo<i class="fa-solid fa-xmark"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+    <!-- New Twitt Modal -->
 
     <div class="container" id="all">
       <!-- Header -->
@@ -213,7 +254,7 @@
           </div>
         </div>
         <!-- Twitt -->
-        <div class="new-twit">
+        <div onclick="showNewTwitModal()" class="new-twit">
           <i class="fa-solid fa-plus"></i>
         </div>
       </section>
