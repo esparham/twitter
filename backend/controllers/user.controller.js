@@ -30,6 +30,11 @@ const signUp = async (req, res, next) => {
 
   const { firstName, lastName, email, password } = req.body;
 
+  let image;
+  if (req.file) {
+    image = req.file.path;
+  }
+
   let existingUser;
   try {
     existingUser = await User.findOne({ email });
@@ -51,6 +56,7 @@ const signUp = async (req, res, next) => {
     firstName,
     lastName,
     email,
+    image,
     password: hashedPassword,
     isVerified: false,
     registeredAt: new Date(),
