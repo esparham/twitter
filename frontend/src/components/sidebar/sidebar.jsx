@@ -28,7 +28,7 @@ const Sidebar = (props) => {
           </div>
           <Link to="/profile">
             <div className={classes.userInfo}>
-              <img src="images/profile.jpg" alt="" />
+              <img src={`http://localhost:4000/${userInfo.image}`} alt="" />
               <h3>
                 {userInfo.firstName} {userInfo.lastName}
               </h3>
