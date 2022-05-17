@@ -7,13 +7,40 @@ import { userActions } from '../../store/userSlice';
 import Spinner from '../ui/Spinner/spinner';
 import { Link, useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
+import { useRef, useState } from 'react';
 
 import classes from './register.module.css';
 
 const Register = () => {
+  const imageRef = useRef();
+  const [file, setFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState();
+  const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const pickImageHandler = (event) => {
+    if (event.target.files && event.target.files.length === 1) {
+      const pickedFile = event.target.files[0];
+      setFile(pickedFile);
+      setIsValid(true);
+      return;
+    } else {
+      setIsValid(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+  }, [file]);
 
   const {
     value: firstNameValue,
@@ -55,21 +82,34 @@ const Register = () => {
   //TODO handle errors
   //TODO add user feedback
 
-  const requestConfig = {
-    url: `${config.api}user/signup`,
-    method: 'POST',
-    header: { 'Content-Type': 'application/json' },
-    body: {
-      firstName: firstNameValue,
-      lastName: lastNameValue,
-      email: emailValue,
-      password: passwordValue,
-    },
-  };
+  // const requestConfig = {
+  //   url: `${config.api}user/signup`,
+  //   method: 'POST',
+  //   header: { 'Content-Type': 'application/json' },
+  //   body: {
+  //     firstName: firstNameValue,
+  //     lastName: lastNameValue,
+  //     email: emailValue,
+  //     password: passwordValue,
+  //   },
+  // };
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    await sendRequest(requestConfig);
+     let formData = new FormData();
+     formData.append('firstName', firstNameValue);
+     formData.append('lastName', lastNameValue);
+     formData.append('email', emailValue);
+     formData.append('password', passwordValue);
+     formData.append('image', file);
+
+     await fetch(`${config.api}user/signup`, {
+       method: 'POST',
+      //  headers: {
+      //    Authorization: `Bearer ${localStorage.getItem('token')}`,
+      //  },
+       body: formData,
+     });
   };
 
   return (
@@ -117,6 +157,24 @@ const Register = () => {
             onBlur={passwordInputBlurHandler}
             value={passwordValue}
             onChange={passwordValueChangeHandler}
+          />
+          <div>
+            {previewUrl && (
+              <img
+                src={previewUrl}
+                alt="preview"
+                className={classes.userPhoto}
+              />
+            )}
+          </div>
+          <label htmlFor="image">Your photo</label>
+          <input
+            className={classes.fileInput}
+            id="image"
+            type="file"
+            accept=".jpg,.jpeg,.png"
+            onChange={pickImageHandler}
+            ref={imageRef}
           />
           <button disabled={!formIsValid}>
             {isLoading ? <Spinner /> : 'Signup'}

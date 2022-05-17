@@ -86,8 +86,23 @@ a {
   cursor: pointer;
 }
 
-@media (min-width: 1000px) {
+.fileInput {
+  font: var(--font-main);
+  padding: 8px 16px;
+  border-radius: 16px;
+  height: 64px;
+  color: var(--color-text-primary);
+  background-color: var(--color-text-secondray);
+  margin: 16px auto;
 }
 
-@media (min-width: 1150px) {
+.userPhoto {
+  margin: 16px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
+
+@media (min-width: 1000px) {}
+
+@media (min-width: 1150px) {}
