@@ -4,6 +4,12 @@
   height: 20px;
   position: relative;
   align-items: baseline;
+
+}
+
+.center {
+  margin-top: 10%;
+  text-align: center;
 }
 
 .inner {
@@ -34,24 +40,29 @@
     transform: rotateZ(0deg);
     border-width: 1px;
   }
+
   50% {
     transform: rotateZ(180deg);
     border-width: 4px;
   }
+
   100% {
     transform: rotateZ(360deg);
     border-width: 1px;
   }
 }
+
 @keyframes rotate2 {
   0% {
     transform: rotateZ(0deg);
     border-width: 4px;
   }
+
   50% {
     transform: rotateZ(180deg);
     border-width: 1px;
   }
+
   100% {
     transform: rotateZ(360deg);
     border-width: 4px;
