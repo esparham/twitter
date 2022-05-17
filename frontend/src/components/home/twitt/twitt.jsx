@@ -8,7 +8,7 @@ const Twitt = (props) => {
   return (
     <React.Fragment>
       <div className={classes.twitt}>
-        <img className={classes.userPhoto} src="images/My Photo.jpg" alt="" />
+        <img className={classes.userPhoto} src={props.userImage} alt="" />
         <div className={classes.card}>
           <div className={classes.cardUsername}>
             <div className={classes.cardUsername__left}>

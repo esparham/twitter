@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import ReactDom from 'react-dom';
+import { useSelector } from 'react-redux';
+
 import Sidebar from '../../sidebar/sidebar';
 
 import classes from './header.module.css';
 
-const Header= (props) => {
+const Header = (props) => {
+  const userInfo = useSelector((state) => state.user);
   const [showSideMenu, setShowSideMenu] = useState(false);
   const sidebarRoot = document.getElementById('sidebar');
 
@@ -25,8 +28,8 @@ const Header= (props) => {
       <section className={classes.header}>
         <div className={classes.headerLeft}>
           <img
-            src="images/profile.jpg"
-            alt="profile picture"
+            src={`http://localhost:4000/${userInfo.image}`}
+            alt="profile"
             onClick={toggleShowSideMenu}
           />
           <h1>Home</h1>
