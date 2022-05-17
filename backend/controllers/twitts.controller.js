@@ -45,7 +45,10 @@ const createNewTwitt = async (req, res, next) => {
   //   return next(new HttpError('Invalid inputs passed', 422));
   // }
   const { text } = req.body;
-  const image = req.file.path;
+  let image;
+  if(req.file){
+     image = req.file.path;
+  }
 
   const newTwitt = new Twitt({
     creator: req.userData.userId,
