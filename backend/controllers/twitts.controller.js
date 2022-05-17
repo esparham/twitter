@@ -23,7 +23,10 @@ const getTwittsByUser = async (req, res, next) => {
 
   let twitts = [];
   try {
-    twitts = await Twitt.find({ creator: userId }).limit(limit).skip(skip);
+    twitts = await Twitt.find({ creator: userId })
+      .limit(limit)
+      .skip(skip)
+      .sort({ createdAt: -1 });
   } catch (err) {
     return res.status(500).json({ msg: 'Something went wrong.' });
   }
@@ -41,7 +44,6 @@ const createNewTwitt = async (req, res, next) => {
   //   console.log(errors);
   //   return next(new HttpError('Invalid inputs passed', 422));
   // }
-
   const { text } = req.body;
   const image = req.file.path;
 
