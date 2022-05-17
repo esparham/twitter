@@ -7,6 +7,7 @@ const initialState = {
   firstName: '',
   lastName: '',
   email: '',
+  image: '',
   registeredAt: '',
   twitts: [],
   followings: [],
@@ -22,11 +23,13 @@ const userSlice = createSlice({
       state.isLogedIn = true;
     },
     setUserInfo(state, action) {
-      const { firstName, lastName, email, registeredAt } = action.payload;
+      const { firstName, lastName, email, registeredAt, image } =
+        action.payload;
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
       state.registeredAt = registeredAt;
+      state.image = image;
     },
     setUserLogout(state, action) {
       state.token = '';
@@ -59,7 +62,7 @@ export const fetchUserData = (token) => {
       return data;
     };
     try {
-      const userData = await fetchData();      
+      const userData = await fetchData();
       dispatch(userActions.setUserInfo(userData));
     } catch (err) {
       console.log('error', err);
