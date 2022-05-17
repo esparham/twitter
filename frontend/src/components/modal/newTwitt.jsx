@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './newTwitt.module.css';
 import useInput from '../../hooks/useInput';
-import useHttp from '../../hooks/useHttp';
 import config from '../../appconfig.json';
 
 const NewTwitt = (props) => {
@@ -20,38 +19,20 @@ const NewTwitt = (props) => {
 
   const formIsInValid = twittHasError && !twittIsValid;
 
-  const { isLoading, error, sendRequest } = useHttp((res) => {
-    console.log(res);
-  });
-
-  //TODO handle errors
-
-  // const sendTwittRequestConfig = {
-  //   url: `${config.api}twitt`,
-  //   method: 'POST',
-  //   body: { text: twittValue },
-  // };
-
   const handleSendTwitt = async () => {
     let formData = new FormData();
     formData.append('text', twittValue);
     formData.append('image', file);
-    console.log(formData);
-    // await fetch(`${config.api}twitt`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //   },
-    //   formData,
-    // });
 
-    // console.log(formData);
-    // sendRequest({
-    //   url: `${config.api}twitt`,
-    //   method: 'POST',
-    //   formData: formData,
-    // });
-    // props.handleHide();
+    await fetch(`${config.api}twitt`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData,
+    });
+
+    props.handleHide();
   };
 
   const pickImageHandler = (event) => {
@@ -128,7 +109,6 @@ const NewTwitt = (props) => {
           </div>
         </div>
       </div>
-      {/* <!-- New Twitt Modal --> */}
     </React.Fragment>
   );
 };
