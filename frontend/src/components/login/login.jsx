@@ -44,7 +44,7 @@ const Login = () => {
   const loginRequestConfig = {
     url: `${config.api}user/login`,
     method: 'POST',
-    header: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: { email: emailValue, password: passwordValue },
   };
 
