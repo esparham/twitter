@@ -5,8 +5,11 @@ import Twitt from '../home/twitt/twitt';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserTwitts } from '../../store/twittSlice';
 import classes from './profile.module.css';
+import Spinner from '../ui/Spinner/spinner';
+import { useCallback } from 'react';
+import formatDate from '../../tools/formatDate';
 
-const Profile = (props) => {
+const Profile = () => {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
@@ -14,15 +17,14 @@ const Profile = (props) => {
   const userInfo = useSelector((state) => state.user);
   const userTwitts = useSelector((state) => state.twitt.twitts);
 
-  // useEffect(() => {
-  //   console.log('load');
-  //   console.log(userTwitts);
-  // }, [userTwitts]);
-
-  useEffect(() => {
+  const getTwitts = useCallback(() => {
     const token = localStorage.getItem('token');
     dispatch(fetchUserTwitts(token, limit, skip));
   }, [dispatch, limit, skip]);
+
+  useEffect(() => {
+    getTwitts();
+  }, [getTwitts]);
 
   return (
     <React.Fragment>
@@ -47,7 +49,11 @@ const Profile = (props) => {
         <section className={classes.body}>
           <div className={classes.coverPhoto}>
             <img className={classes.cover} src="images/header.jpeg" alt="" />
-            <img className={classes.profile} src="images/profile.jpg" alt="" />
+            <img
+              className={classes.profile}
+              src={`http://localhost:4000/${userInfo.image}`}
+              alt=""
+            />
           </div>
 
           <div className={classes.editProfile}>
@@ -64,11 +70,7 @@ const Profile = (props) => {
               <i className="fa-solid fa-calendar-days"></i>
               <h2>
                 Joined
-                {new Date(userInfo.registeredAt).toLocaleDateString(undefined, {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {formatDate(userInfo.registeredAt, true, false)}
               </h2>
             </span>
             <div className="row">
@@ -87,12 +89,13 @@ const Profile = (props) => {
                 <Twitt
                   key={twitt._id}
                   text={twitt.text}
+                  userImage={`http://localhost:4000/${userInfo.image}`}
                   image={`http://localhost:4000/${twitt.image}`}
-                  createdAt={twitt.createdAt}
+                  createdAt={formatDate(twitt.createdAt)}
                 />
               ))
             ) : (
-              <h1>loading</h1>
+              <Spinner />
             )}
           </div>
         </section>
