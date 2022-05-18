@@ -8,7 +8,6 @@ const useHttp = (sendResponse) => {
     async (requestConfig) => {
       setIsLoading(true);
       setError(null);
-
       try {
         const response = await fetch(requestConfig.url, {
           method: requestConfig.method ? requestConfig.method : 'GET',
@@ -23,15 +22,15 @@ const useHttp = (sendResponse) => {
             : requestConfig.formData,
         });
 
-        if (!response.ok) {
-          throw new Error('Faild to call url.');
-        }
         const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
         sendResponse(data);
       } catch (err) {
         setError(err);
         setIsLoading(false);
-        throw new Error('Something went wrong.');
+        throw new Error(err);
       }
       setIsLoading(false);
     },
