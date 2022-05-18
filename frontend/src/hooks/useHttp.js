@@ -14,7 +14,9 @@ const useHttp = (sendResponse) => {
           headers: requestConfig.headers
             ? requestConfig.headers
             : {
-                'Content-Type': 'application/json',
+                ...(requestConfig.body && {
+                  'Content-Type': 'application/json',
+                }),
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
               },
           body: requestConfig.body
