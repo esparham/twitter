@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './newTwitt.module.css';
 import useInput from '../../hooks/useInput';
+import useHttp from '../../hooks/useHttp';
 import config from '../../appconfig.json';
+import ReactDom from 'react-dom';
+import Message from './message';
 
 const NewTwitt = (props) => {
+  const [showModal, setShowModal] = useState(false);
   const imageRef = useRef();
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
@@ -15,23 +19,37 @@ const NewTwitt = (props) => {
     isValid: twittIsValid,
     valueChangeHandler: twittValueChangeHandler,
     inputBlurHandler: twittInputBlurHandler,
+    reset,
   } = useInput((twitt) => twitt.length > 0);
 
   const formIsInValid = twittHasError && !twittIsValid;
+
+  const { isLoading, error, sendRequest } = useHttp((res) => console.log(res));
+
+  useEffect(() => {
+    if (error !== null) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [error]);
+
+  const modalRoot = document.getElementById('modal');
 
   const handleSendTwitt = async () => {
     let formData = new FormData();
     formData.append('text', twittValue);
     formData.append('image', file);
 
-    await fetch(`${config.api}twitt`, {
+    sendRequest({
+      url: `${config.api}twitt`,
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: formData,
+      formData,
     });
-
+    reset();
+    setFile(null);
+    setPreviewUrl(null);
+    imageRef.current.value = null;
     props.handleHide();
   };
 
@@ -59,6 +77,23 @@ const NewTwitt = (props) => {
 
   return (
     <React.Fragment>
+      {ReactDom.createPortal(
+        <Message
+          header="Error!"
+          text={error && error.message}
+          show={showModal}
+          buttons={[
+            {
+              text: 'Retry',
+              type: 'success',
+              action: () => {
+                setShowModal(false);
+              },
+            },
+          ]}
+        />,
+        modalRoot
+      )}
       <div
         id="new-twitt-modal"
         className={`${classes.newTwittModal} ${
