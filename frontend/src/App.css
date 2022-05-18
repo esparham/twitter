@@ -11,6 +11,7 @@
   --color-text-secondray: rgb(72, 155, 233);
   --color-text-gray: rgb(140, 152, 164);
   --color-border: rgb(40, 50, 59);
+  --color-success: rgb(72, 155, 233);
   --color-danger: rgba(218, 3, 3, 0.818);
   --font-main: 'Lato', sans-serif;
 }
