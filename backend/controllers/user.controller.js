@@ -104,7 +104,7 @@ const login = async (req, res, next) => {
   }
 
   if (!isValidPassword) {
-    return next(new HttpError('Invalid creedentials.', 401));
+    return next(new HttpError('Invalid credentials.', 401));
   }
 
   const token = generateToken(logInUser.id);
