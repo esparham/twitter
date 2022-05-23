@@ -1,25 +1,14 @@
-import React, { useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/userSlice';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
 import classes from './sidebar.module.css';
 
 const Sidebar = (props) => {
   const userInfo = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const logOut = useCallback(() => {
-    dispatch(userActions.setUserLogout());
-    localStorage.removeItem('token');
-    navigate('/login');
-    navigate(0);
-  }, [dispatch, navigate]);
 
   return (
     <React.Fragment>
-      {/* <!-- Sidebar --> */}
       <aside id="side-menu" className={props.show ? classes.active : ''}>
         <div className={classes.sideTop}>
           <div className={classes.top}>
@@ -60,12 +49,10 @@ const Sidebar = (props) => {
           </Link>
         </div>
 
-        <div className={classes.sideBottom} onClick={logOut}>
-          {/* <Link to="/logout">Logout</Link> */}
-          <Link to="">Logout</Link>
+        <div className={classes.sideBottom}>
+          <Link to="/logout">Logout</Link>
         </div>
       </aside>
-      {/* <!-- Sidebar --> */}
     </React.Fragment>
   );
 };
