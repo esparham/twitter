@@ -25,6 +25,7 @@ const userSlice = createSlice({
     setUserInfo(state, action) {
       const { firstName, lastName, email, registeredAt, image } =
         action.payload;
+
       state.email = email;
       state.firstName = firstName;
       state.lastName = lastName;
@@ -45,7 +46,8 @@ const userSlice = createSlice({
   },
 });
 
-export const fetchUserData = (token) => {
+export const fetchUserData = () => {
+  const token = localStorage.getItem('token');
   return async (dispatch) => {
     const fetchData = async () => {
       const response = await fetch(`${config.api}user/userInfo`, {
@@ -65,6 +67,8 @@ export const fetchUserData = (token) => {
       const userData = await fetchData();
       dispatch(userActions.setUserInfo(userData));
     } catch (err) {
+      dispatch(userActions.setUserLogout());
+      localStorage.clear();
       console.log('error', err);
     }
   };
