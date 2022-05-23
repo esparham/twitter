@@ -81,10 +81,10 @@ button:disabled {
   background-color: var(--color-text-gray);
 }
 
-a {
+/* a {
   margin: 16px;
   cursor: pointer;
-}
+} */
 
 @media (min-width: 1000px) {
 }
