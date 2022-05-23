@@ -8,6 +8,7 @@ import classes from './profile.module.css';
 import Spinner from '../ui/Spinner/spinner';
 import { useCallback } from 'react';
 import formatDate from '../../tools/formatDate';
+import { fetchUserData } from '../../store/userSlice';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -23,8 +24,10 @@ const Profile = () => {
   }, [dispatch, limit, skip]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    dispatch(fetchUserData(token));
     getTwitts();
-  }, [getTwitts]);
+  }, [dispatch, getTwitts]);
 
   return (
     <React.Fragment>
@@ -57,8 +60,8 @@ const Profile = () => {
           </div>
 
           <div className={classes.editProfile}>
-            {/* <link to="/profile">Edit profile</link> */}
-            <a href="">Edit profile</a>
+            <button onClick={() => {}}>Follow</button>
+            <Link to="/">Edit profile</Link>
           </div>
 
           <div className={classes.userInfo__profile}>
