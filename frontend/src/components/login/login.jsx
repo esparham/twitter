@@ -1,20 +1,15 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
 import ReactDom from 'react-dom';
 import useHttp from '../../hooks/useHttp';
 import config from '../../appconfig.json';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/userSlice';
 import classes from './login.module.css';
 import Spinner from '../ui/Spinner/spinner';
 import { Link, useNavigate } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
 import Message from '../modal/message';
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
@@ -35,20 +30,10 @@ const Login = () => {
 
   const formIsValid = emailIsValid && passwordIsValid;
 
-  function setTokenAndNavigate(data) {
-    localStorage.setItem('token', data.token);
-    dispatch(userActions.setUserLogin(data.token));
-    navigate('/');
-  }
-
   const { isLoading, error, sendRequest } = useHttp(setTokenAndNavigate);
 
   useEffect(() => {
-    if (error !== null) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
-    }
+    setShowModal(error !== null);
   }, [error]);
 
   const loginRequestConfig = {
@@ -58,29 +43,16 @@ const Login = () => {
     body: { email: emailValue, password: passwordValue },
   };
 
+  function setTokenAndNavigate(data) {
+    localStorage.setItem('token', data.token);
+    navigate('/home');
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault();
     await sendRequest(loginRequestConfig);
   };
 
-  const checkToken = useCallback(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      const decodedToken = jwt.decode(token, { complete: true });
-      const dateNow = Date.now() / 1000;
-      if (decodedToken.payload.exp < dateNow) {
-        localStorage.removeItem('token');
-        dispatch(userActions.setUserLogout());
-      } else {
-        dispatch(userActions.setUserLogin(token));
-      }
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    checkToken();
-  }, [checkToken]);
   const modalRoot = document.getElementById('modal');
 
   return (
@@ -107,7 +79,6 @@ const Login = () => {
         <i className="fa-brands fa-twitter"></i>
         <h1>Twitter</h1>
         <h2>Login</h2>
-
         <div className={classes.form}>
           <form onSubmit={handleLogin}>
             <label htmlFor="email">Email</label>
