@@ -22,8 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isInitial) {
-      const token = localStorage.getItem('token');
-      dispatch(fetchUserData(token));
+      dispatch(fetchUserData());
       isInitial = false;
     }
   }, [dispatch]);
