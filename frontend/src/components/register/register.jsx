@@ -1,26 +1,22 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import useInput from '../../hooks/useInput';
-import useHttp from '../../hooks/useHttp';
-import config from '../../appconfig.json';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/userSlice';
 import Spinner from '../ui/Spinner/spinner';
-import { Link, useNavigate } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
+import { Link } from 'react-router-dom';
 import Message from '../modal/message';
 import { useRef, useState } from 'react';
 import ReactDom from 'react-dom';
+import { signup } from '../../services/services';
 
 import classes from './register.module.css';
 
 const Register = () => {
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const imageRef = useRef();
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const pickImageHandler = (event) => {
     if (event.target.files && event.target.files.length === 1) {
@@ -79,8 +75,6 @@ const Register = () => {
   const formIsValid =
     firstNameIsValid && lastNameIsValid && emailIsValid && passwordIsValid;
 
-  const { isLoading, error, sendRequest } = useHttp((res) => {});
-
   useEffect(() => {
     if (error !== null) {
       setShowModal(true);
@@ -89,10 +83,9 @@ const Register = () => {
     }
   }, [error]);
   const modalRoot = document.getElementById('modal');
-  //TODO handle errors
-  //TODO add user feedback
 
   const handleRegister = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
     let formData = new FormData();
     formData.append('firstName', firstNameValue);
@@ -100,12 +93,16 @@ const Register = () => {
     formData.append('email', emailValue);
     formData.append('password', passwordValue);
     formData.append('image', file);
-
-    sendRequest({
-      url: `${config.api}user/signup`,
-      method: 'POST',
-      formData: formData,
-    });
+    signup(formData)
+      .then((res) => {
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError(err);
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   return (

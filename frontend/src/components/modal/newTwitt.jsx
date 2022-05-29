@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './newTwitt.module.css';
 import useInput from '../../hooks/useInput';
-import useHttp from '../../hooks/useHttp';
-import config from '../../appconfig.json';
 import ReactDom from 'react-dom';
 import Message from './message';
+import { sendTwitt } from '../../services/services';
 
 const NewTwitt = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -12,6 +11,7 @@ const NewTwitt = (props) => {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
+  const [error, setError] = useState(null);
 
   const {
     value: twittValue,
@@ -24,33 +24,26 @@ const NewTwitt = (props) => {
 
   const formIsInValid = twittHasError && !twittIsValid;
 
-  const { isLoading, error, sendRequest } = useHttp((res) => console.log(res));
-
-  useEffect(() => {
-    if (error !== null) {
-      setShowModal(true);
-    } else {
-      setShowModal(false);
-    }
-  }, [error]);
-
   const modalRoot = document.getElementById('modal');
 
   const handleSendTwitt = async () => {
     let formData = new FormData();
     formData.append('text', twittValue);
     formData.append('image', file);
-
-    sendRequest({
-      url: `${config.api}twitt`,
-      method: 'POST',
-      formData,
-    });
-    reset();
-    setFile(null);
-    setPreviewUrl(null);
-    imageRef.current.value = null;
-    props.handleHide();
+    
+    sendTwitt(formData)
+      .then(() => {
+        reset();
+        setFile(null);
+        setPreviewUrl(null);
+        imageRef.current.value = null;
+        props.handleHide();
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err);
+        setShowModal(true);
+      });
   };
 
   const pickImageHandler = (event) => {

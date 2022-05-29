@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
 import ReactDom from 'react-dom';
-import useHttp from '../../hooks/useHttp';
-import config from '../../appconfig.json';
 import classes from './login.module.css';
 import Spinner from '../ui/Spinner/spinner';
 import { Link, useNavigate } from 'react-router-dom';
 import Message from '../modal/message';
+import { login } from '../../services/services';
 
 const Login = () => {
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     value: emailValue,
@@ -30,28 +31,25 @@ const Login = () => {
 
   const formIsValid = emailIsValid && passwordIsValid;
 
-  const { isLoading, error, sendRequest } = useHttp(setTokenAndNavigate);
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    login(emailValue, passwordValue)
+      .then((loginResult) => {
+        localStorage.setItem('token', loginResult.token);
+        navigate('/home');
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError(err);
+        setIsLoading(false);
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     setShowModal(error !== null);
   }, [error]);
-
-  const loginRequestConfig = {
-    url: `${config.api}user/login`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: { email: emailValue, password: passwordValue },
-  };
-
-  function setTokenAndNavigate(data) {
-    localStorage.setItem('token', data.token);
-    navigate('/home');
-  }
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    await sendRequest(loginRequestConfig);
-  };
 
   const modalRoot = document.getElementById('modal');
 
